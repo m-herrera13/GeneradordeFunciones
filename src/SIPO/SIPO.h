@@ -6,7 +6,6 @@
 namespace SR_KEYPAD{
         
     class SIPO{
-
     private:
         void(*_DataController)(bool);
         void(*_ClockController)(void);
@@ -21,6 +20,10 @@ namespace SR_KEYPAD{
 
         void Write(uint8_t Data);
         void Write(uint8_t* Data, uint8_t len);
+
+        void Data(bool x);
+        void Clock();
+        void Latch();
     };
 
 };

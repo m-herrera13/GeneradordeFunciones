@@ -6,7 +6,6 @@
 namespace SR_KEYPAD{
         
     class PISO{
-
     private:
         bool(*_DataController)(void);       // Data In
         void(*_ClockController)(void);      // Clock
