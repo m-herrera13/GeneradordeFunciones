@@ -25,7 +25,6 @@ namespace SR_KEYPAD{
         void Clock();
         void Latch();
     };
-
 };
 
 #endif
