@@ -8,14 +8,12 @@ namespace FUNCTION_GENERATOR{
         
     class FunctionGenerator{
     private:
-        float _Freq;
+        float _TFreq;
         float _Amp;
         float _Offset;
-        float _fs;
-
-    protected:
-        float dTheta;
-        float theta;        
+        float _SFreq;
+        float _Acc;
+        float _LUT[512];      
 
     public:
         FunctionGenerator();
@@ -28,6 +26,7 @@ namespace FUNCTION_GENERATOR{
         void SetSFreq(float sf);        //Sample frequency
         float SFreq();
         virtual float Refresh();
+        virtual void LookUpTable();
 
     };
 
