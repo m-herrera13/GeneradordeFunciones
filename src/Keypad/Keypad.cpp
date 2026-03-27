@@ -1,4 +1,4 @@
-#include "SR_Keypad.h"
+#include "Keypad.h"
 #include <stdint.h>
 
 SR_KEYPAD::Controller::Controller(){
