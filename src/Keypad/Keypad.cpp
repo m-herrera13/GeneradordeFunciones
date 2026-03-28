@@ -1,7 +1,9 @@
 #include "Keypad.h"
 #include <stdint.h>
 
-SR_KEYPAD::Controller::Controller(){
+using namespace SR_KEYPAD;
+
+Controller::Controller(){
     ClearCallback();
     _out_controller = nullptr;
     _in_controller = nullptr;
@@ -11,7 +13,7 @@ SR_KEYPAD::Controller::Controller(){
     }
 };
 
-SR_KEYPAD::Controller::Controller(void(&Callback)(uint8_t ID, bool State)){
+Controller::Controller(void(&Callback)(uint8_t ID, bool State)){
     AttachCallback(Callback);
     _out_controller = nullptr;
     _in_controller = nullptr;
@@ -21,28 +23,28 @@ SR_KEYPAD::Controller::Controller(void(&Callback)(uint8_t ID, bool State)){
     }
 }
 
-void SR_KEYPAD::Controller::AttachCallback(void(&Callback)(uint8_t ID, bool State)){
+void Controller::AttachCallback(void(&Callback)(uint8_t ID, bool State)){
     _Callback = Callback;
 }
 
-void SR_KEYPAD::Controller::ClearCallback(){
+void Controller::ClearCallback(){
     _Callback = nullptr;
 }
 
-void SR_KEYPAD::Controller::AttachSIPO(SIPO& SIPO_Controller){
+void Controller::AttachSIPO(SIPO& SIPO_Controller){
     _out_controller = &SIPO_Controller;
 }
-void SR_KEYPAD::Controller::DetachSIPO(){
+void Controller::DetachSIPO(){
     _out_controller = nullptr;
 }
-void SR_KEYPAD::Controller::AttachPISO(PISO& PISO_Controller){
+void Controller::AttachPISO(PISO& PISO_Controller){
     _in_controller = &PISO_Controller;
 }
-void SR_KEYPAD::Controller::DetachPISO(){
+void Controller::DetachPISO(){
     _in_controller = nullptr;
 }
 
-void SR_KEYPAD::Controller::Scan(){
+void Controller::Scan(){
     if(!_out_controller || !_in_controller || !_Callback) return;
 
     uint8_t NewStates[8] = {0,0,0,0,0,0,0,0};

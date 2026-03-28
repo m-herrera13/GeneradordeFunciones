@@ -1,13 +1,15 @@
 #include "PISO.h"
 #include <stdint.h>
 
-SR_KEYPAD::PISO::PISO(){
+using namespace SR_KEYPAD;
+
+PISO::PISO(){
     _DataController = nullptr;
     _ClockController = nullptr;
     _SLController = nullptr;
 }
             
-SR_KEYPAD::PISO::PISO(bool(&DataController)(void),
+PISO::PISO(bool(&DataController)(void),
     void(&ClockController)(void),
     void(&SLController)(void)){
         _DataController = DataController;
@@ -15,7 +17,7 @@ SR_KEYPAD::PISO::PISO(bool(&DataController)(void),
         _SLController = SLController;
 }
 
-uint8_t SR_KEYPAD::PISO::Read(uint8_t bits){
+uint8_t PISO::Read(uint8_t bits){
 
     uint8_t output = 0;
 
@@ -32,7 +34,7 @@ uint8_t SR_KEYPAD::PISO::Read(uint8_t bits){
     }
 }
 
-uint8_t* SR_KEYPAD::PISO::ReadArray(uint8_t bytes, uint8_t* buffer){
+uint8_t* PISO::ReadArray(uint8_t bytes, uint8_t* buffer){
 
     if(_SLController){ _SLController(); }
 

@@ -12,11 +12,15 @@ namespace FUNCTION_GENERATOR{
         float _Amp;
         float _Offset;
         float _SFreq;
+        float _DutyCycle;
+
+    protected:
         float _Acc;
         float _LUT[512];      
 
     public:
         FunctionGenerator();
+        FunctionGenerator(float tf, float amp, float offset, float duty, float sfreq);
         void SetTFreq(float tf);        //Target frequency
         float TFreq();
         void SetAmp(float amp);         //Amplitude
@@ -25,9 +29,35 @@ namespace FUNCTION_GENERATOR{
         float Offset();
         void SetSFreq(float sf);        //Sample frequency
         float SFreq();
+        void SetDutyCycle(float duty);        //Sample frequency
+        float DutyCycle();
         virtual float Refresh();
         virtual void LookUpTable();
 
+    };
+
+    class Sine: public FunctionGenerator{
+    public:
+        float Refresh() override;
+        void LookUpTable() override;
+    };
+
+    class Square: public FunctionGenerator{
+    public:
+        float Refresh() override;
+        void LookUpTable() override;
+    };
+
+    class Triangle: public FunctionGenerator{
+    public:
+        float Refresh() override;
+        void LookUpTable() override;
+    };
+
+    class Saw: public FunctionGenerator{
+    public:
+        float Refresh() override;
+        void LookUpTable() override;
     };
 
 };

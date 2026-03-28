@@ -1,13 +1,15 @@
 #include "SIPO.h"
 #include <stdint.h>
 
-SR_KEYPAD::SIPO::SIPO(){
+using namespace SR_KEYPAD;
+
+SIPO::SIPO(){
     _DataController = nullptr;
     _ClockController = nullptr;
     _LatchController = nullptr;
 }
             
-SR_KEYPAD::SIPO::SIPO(void(&DataController)(bool),
+SIPO::SIPO(void(&DataController)(bool),
     void(&ClockController)(void),
     void(&LatchController)(void)){
         _DataController = DataController;
@@ -15,7 +17,7 @@ SR_KEYPAD::SIPO::SIPO(void(&DataController)(bool),
         _LatchController = LatchController;
 }
 
-void SR_KEYPAD::SIPO::Write(uint8_t Data){
+void SIPO::Write(uint8_t Data){
     for(uint8_t i = 0; i<8; i++){
         this->Data((Data>>i)&0b1);
         Clock();
@@ -23,7 +25,7 @@ void SR_KEYPAD::SIPO::Write(uint8_t Data){
     Latch();
 }
 
-void SR_KEYPAD::SIPO::Write(uint8_t* Data, uint8_t len){
+void SIPO::Write(uint8_t* Data, uint8_t len){
 
     for(uint8_t i = 0; i<len*8; i++){
         this->Data((Data[i/8]>>(i%8))&0b1);
@@ -32,14 +34,14 @@ void SR_KEYPAD::SIPO::Write(uint8_t* Data, uint8_t len){
     Latch();
 }
 
-void SR_KEYPAD::SIPO::Data(bool x){
+void SIPO::Data(bool x){
     if(_DataController){_DataController(x);}
 }
 
-void SR_KEYPAD::SIPO::Clock(){
+void SIPO::Clock(){
     if(_ClockController){ _ClockController(); }
 }
 
-void SR_KEYPAD::SIPO::Latch(){
+void SIPO::Latch(){
     if(_LatchController){ _LatchController(); }
 }
