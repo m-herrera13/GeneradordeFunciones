@@ -77,12 +77,15 @@ void Square::LookUpTable(){
     }
 }
 
-
-
 void Triangle::LookUpTable(){
-
+    for(int i=0; i<128; i++){
+        if(i<64){
+            _LUT[i]=Amp()*(2.0*i/128.0-1.0)+Offset();
+        }else{
+            _LUT[i]=Amp()*(1.0-2.0*(i-64)/128.0)+Offset();
+        }
+    }
 }
-
 
 void Saw::LookUpTable(){
 
