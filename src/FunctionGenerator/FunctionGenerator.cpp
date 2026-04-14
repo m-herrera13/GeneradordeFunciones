@@ -61,12 +61,20 @@ float FUNCTION_GENERATOR::FunctionGenerator::Refresh(){
 }   
 
 void Sine::LookUpTable(){
-    
+    for(int i=0; i<128; i++){
+        _LUT[i] = Amp()*sin(2*PI*i/128)+Offset();
+    }
 }
 
 
 void Square::LookUpTable(){
-    
+    for(int i=0; i<128; i++){
+        if(i<64){
+            _LUT[i]=Amp()+Offset();
+        }else{
+            _LUT[i]=Amp()*-1+Offset();
+        }
+    }
 }
 
 
