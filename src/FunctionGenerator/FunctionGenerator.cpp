@@ -51,15 +51,7 @@ void FunctionGenerator::SetDutyCycle(float duty){
 
 }     
 
-float Sine::Refresh(){
-
-}
-
 void Sine::LookUpTable(){
-    
-}
-
-float Square::Refresh(){
     
 }
 
@@ -71,15 +63,7 @@ void Square::LookUpTable(){
     }
 }
 
-float Triangle::Refresh(){
-
-}
-
 void Triangle::LookUpTable(){
-
-}
-
-float Saw::Refresh(){
 
 }
 
