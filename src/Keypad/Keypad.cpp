@@ -9,7 +9,7 @@ SR_KEYPAD::Controller::Controller(){
     for(uint8_t i=0; i<8; i++){
         _prev_states[i]=0;
     }
-};
+}
 
 SR_KEYPAD::Controller::Controller(void(&Callback)(uint8_t ID, bool State)){
     AttachCallback(Callback);
@@ -78,4 +78,4 @@ void SR_KEYPAD::Controller::Scan(){
         _prev_states[i] = NewStates[i];
     }
       
-};
+}

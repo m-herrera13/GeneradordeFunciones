@@ -41,13 +41,7 @@
     public:
       i2c_CTRL(){}
 
-      void begin(){
-        SDA_PORT |= (1 << SDA_PIN);
-        SCL_PORT |= (1 << SCL_PIN);
-
-        SDA_HIGH();
-        SCL_HIGH();
-      }
+      void begin();
 
       inline void Start(){
         SDA_HIGH();
@@ -110,9 +104,7 @@
         return ack;
       }
 
-      void endTransmission(){
-        Stop();
-      }
+      void endTransmission();
 
     };
 
@@ -123,28 +115,9 @@
       const uint8_t Msg1 = 0b0000;
 
     public:
-      MCP4725(i2c_CTRL* controller, uint8_t address){
-          i2c = controller;
-          Addr = address;
-      }
+      MCP4725(i2c_CTRL* controller, uint8_t address);
 
-      void setV(uint16_t x) {
-        if(x > 4095) x = 4095;
-        
-        if(!i2c->beginTransmission(Addr)) return;
-
-        if(!i2c->write(Msg1 | ((x>>8)&0xF))){
-          i2c->endTransmission();
-          return;
-        }
-
-        if(i2c->write(x & 0xFF)){
-          i2c->endTransmission();
-          return;
-        }
-
-        i2c->endTransmission();
-      }
+      void setV(uint16_t x);
     };
 
   }
