@@ -12,51 +12,51 @@ namespace FUNCTION_GENERATOR{
         float _Amp;
         float _Offset;
         float _SFreq;
-        float _DutyCycle;
+        float _Oversampling;
 
     protected:
+        static constexpr uint16_t LUT_size = 128;
+
         float _Acc;
-        float _LUT[128];      
+        float _LUT[LUT_size];      
 
     public:
         FunctionGenerator();
-        FunctionGenerator(float tf, float amp, float offset, float duty, float sfreq);
+        FunctionGenerator(float tf, float amp, float offset, float os=4.0);
         void SetTFreq(float tf);        //Target frequency
-        float TFreq();
+        float TFreq() const;
         void SetAmp(float amp);         //Amplitude
-        float Amp();
+        float Amp() const;
         void SetOffset(float offset);   //Offset
-        float Offset();
-        void SetSFreq(float sf);        //Sample frequency
-        float SFreq();
-        //void SetDutyCycle(float duty);        //Sample frequency
-        //float DutyCycle();
-        virtual float Refresh();
-        virtual void LookUpTable();
+        float Offset() const;
+        void SetSFreq(float os);        //Oversampling for Sample frequency
+        float SFreq() const;
+        float Refresh();
+        virtual void LookUpTable() = 0;
 
     };
 
     class Sine: public FunctionGenerator{
     public:
-        float Refresh() override;
+        Sine();
         void LookUpTable() override;
     };
 
     class Square: public FunctionGenerator{
     public:
-        float Refresh() override;
+        Square();
         void LookUpTable() override;
     };
 
     class Triangle: public FunctionGenerator{
     public:
-        float Refresh() override;
+        Triangle();
         void LookUpTable() override;
     };
 
     class Saw: public FunctionGenerator{
     public:
-        float Refresh() override;
+        Saw();
         void LookUpTable() override;
     };
 
