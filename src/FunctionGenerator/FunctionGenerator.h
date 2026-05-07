@@ -16,7 +16,7 @@ namespace FUNCTION_GENERATOR{
 
     protected:
         float _Acc;
-        float _LUT[512];      
+        float _LUT[128];      
 
     public:
         FunctionGenerator();
@@ -29,8 +29,8 @@ namespace FUNCTION_GENERATOR{
         float Offset();
         void SetSFreq(float sf);        //Sample frequency
         float SFreq();
-        void SetDutyCycle(float duty);        //Sample frequency
-        float DutyCycle();
+        //void SetDutyCycle(float duty);        //Sample frequency
+        //float DutyCycle();
         virtual float Refresh();
         virtual void LookUpTable();
 

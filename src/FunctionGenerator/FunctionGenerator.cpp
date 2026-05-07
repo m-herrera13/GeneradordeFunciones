@@ -17,53 +17,75 @@ FunctionGenerator::FunctionGenerator(float tf, float amp, float offset, float du
     SetAmp(amp);
     SetOffset(offset);
     SetSFreq(sfreq);
-    SetDutyCycle(duty);
+    //SetDutyCycle(duty);
     LookUpTable(); 
 }
 
-float FunctionGenerator::TFreq(){ return _TFreq; }
-
-float FunctionGenerator::Amp(){ return _Amp; }
-
-float FunctionGenerator::Offset(){ return _Offset; }
-
-float FunctionGenerator::SFreq(){ return _SFreq; }
-
-float FunctionGenerator::DutyCycle(){ return _DutyCycle; }
-
 void FunctionGenerator::SetTFreq(float tf){
+    _TFreq = tf;
+}
 
-}     
+float FunctionGenerator::TFreq(){
+    return _TFreq;
+}
 
 void FunctionGenerator::SetAmp(float amp){
+    _Amp = amp;
+}
 
-}     
+float FunctionGenerator::Amp(){
+    return _Amp;
+}
 
 void FunctionGenerator::SetOffset(float offset){
-    
+    _Offset = offset;
+}
+
+float FunctionGenerator::Offset(){
+    return _Offset;
 }
 
 void FunctionGenerator::SetSFreq(float sf){
-
+    _SFreq = sf;
 }
 
 void FunctionGenerator::SetDutyCycle(float duty){
 
 }     
 
+float Sine::Refresh(){
+
+}
+
 void Sine::LookUpTable(){
+    for(int i=0; i<128; i++){
+        _LUT[i] = Amp()*sin(2*PI*i/128)+Offset();
+    }
+}
+
+float Square::Refresh(){
     
 }
 
 void Square::LookUpTable(){
-    float duty = DutyCycle();
-    for (uint16_t i = 0; i < 512; i++){
-        if (i<(512*duty)) _LUT[i] = Amp() + Offset();
-        else _LUT[i] = Offset();
+    for(int i=0; i<128; i++){
+        if(i<64){
+            _LUT[i]=Amp()+Offset();
+        }else{
+            _LUT[i]=Amp()*-1+Offset();
+        }
     }
 }
 
+float Triangle::Refresh(){
+
+}
+
 void Triangle::LookUpTable(){
+
+}
+
+float Saw::Refresh(){
 
 }
 
