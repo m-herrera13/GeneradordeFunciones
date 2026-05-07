@@ -17,7 +17,6 @@ FunctionGenerator::FunctionGenerator(float tf, float amp, float offset, float du
     SetAmp(amp);
     SetOffset(offset);
     SetSFreq(sfreq);
-    //SetDutyCycle(duty);
     LookUpTable(); 
 }
 
@@ -49,9 +48,6 @@ void FunctionGenerator::SetSFreq(float sf){
     _SFreq = sf;
 }
 
-void FunctionGenerator::SetDutyCycle(float duty){
-
-}     
 
 float Sine::Refresh(){
 
