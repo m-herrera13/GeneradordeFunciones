@@ -18,6 +18,7 @@ FunctionGenerator::FunctionGenerator(float tf, float amp, float offset, float du
     SetOffset(offset);
     SetSFreq(sfreq);
     LookUpTable(); 
+    float _Acc = 0.0;
 }
 
 void FunctionGenerator::SetTFreq(float tf){
@@ -38,6 +39,7 @@ float FunctionGenerator::Amp(){
 
 void FunctionGenerator::SetOffset(float offset){
     _Offset = offset;
+    LookUpTable();
 }
 
 float FunctionGenerator::Offset(){
@@ -49,8 +51,12 @@ void FunctionGenerator::SetSFreq(float sf){
 }
 
 
-float Sine::Refresh(){
-
+float FUNCTION_GENERATOR::FunctionGenerator::Refresh(){
+    _Acc += (_TFreq * 128.0) / _SFreq;
+    while(_Acc >= 128.0){
+        _Acc -= 128.0;
+    }
+    return _LUT[(int)_Acc];
 }
 
 void Sine::LookUpTable(){
@@ -78,13 +84,54 @@ float Triangle::Refresh(){
 }
 
 void Triangle::LookUpTable(){
-
-}
-
-float Saw::Refresh(){
-
+    for(int i = 0; i < 128; i++){
+        if(i < 64){
+            _LUT[i] = -Amp() + (4.0*Amp()*i/128.0);
+        }else{
+            _LUT[i] = Amp() - (4.0*Amp()*(i - 64)/128.0);
+        }
+        _LUT[i] += Offset();
+    }
 }
 
 void Saw::LookUpTable(){
-
+    for(int i = 0; i < 128; i++){
+        _LUT[i]=Amp()*(2.0*i/128.0-1.0)+Offset();
+    }
 }
+
+float Sine::Refresh(){
+    _Acc += (TFreq() * 128.0) / SFreq();
+    while(_Acc >= 128.0){
+        _Acc -= 128.0;
+    }
+    return _LUT[(int)_Acc];
+}
+
+
+float Square::Refresh(){
+    _Acc += (TFreq() * 128.0) / SFreq();
+    while(_Acc >= 128.0){
+        _Acc -= 128.0;
+    }
+    return _LUT[(int)_Acc];
+}
+
+
+float Triangle::Refresh(){
+    _Acc += (TFreq() * 128.0) / SFreq();
+    while(_Acc >= 128.0){
+        _Acc -= 128.0;
+    }
+    return _LUT[(int)_Acc];
+}
+
+
+float Saw::Refresh(){
+    _Acc += (TFreq() * 128.0) / SFreq();
+    while(_Acc >= 128.0){
+        _Acc -= 128.0;
+    }
+    return _LUT[(int)_Acc];
+}
+
