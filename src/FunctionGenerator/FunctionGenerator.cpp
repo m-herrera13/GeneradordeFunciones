@@ -2,7 +2,7 @@
 
 constexpr float PI = 3.141592654f;
 
-using namespace FUNCTION_GENERATOR;
+using namespace Function_Gen;
 
 FunctionGenerator::FunctionGenerator(){
     _Oversampling = 4.0;
@@ -31,7 +31,6 @@ float FunctionGenerator::TFreq() const{
 
 void FunctionGenerator::SetAmp(float amp){
     _Amp = amp;
-    LookUpTable();
 }
 
 float FunctionGenerator::Amp() const{
@@ -40,7 +39,6 @@ float FunctionGenerator::Amp() const{
 
 void FunctionGenerator::SetOffset(float offset){
     _Offset = offset;
-    LookUpTable();
 }
 
 float FunctionGenerator::Offset() const{
@@ -56,57 +54,40 @@ float FunctionGenerator::SFreq() const{
     return _SFreq;
 }
 
-float FUNCTION_GENERATOR::FunctionGenerator::Refresh(){
+void AttachDAC(DAC* DACx){ OutputDAC = DACx; }
+
+float Function_Gen::FunctionGenerator::Refresh(){
     _Acc += (_TFreq * LUT_size) / _SFreq;
     if(_Acc >= LUT_size) _Acc -= LUT_size;
-    return _LUT[(uint16_t)_Acc];
+    return Amp()*pLUT[(uint16_t)_Acc]+Offset();
 }
 
-Sine::Sine(){
-    LookUpTable();
-}
+void FunctionGenerator::AttachLUT(LUT* mainLUT){ LUTfiller = mainLUT; }
 
-void Sine::LookUpTable(){
-    for(int i=0; i<LUT_size; i++){
-        _LUT[i] = Amp()*sin(2*PI*i/LUT_size)+Offset();
-    }
-}
+void FunctionGenerator::SetWaveform(Waveform W){
+    switch(W){
+        case Waveform::Sine:
+            LUTfiller->FillSine(pLUT);
+            break;
 
-Square::Square(){
-    LookUpTable();
-}
+        case Waveform::Square:
+            LUTfiller->FillSquare(pLUT);
+            break;
 
-void Square::LookUpTable(){
-    for(int i=0; i<LUT_size; i++){
-        if(i < LUT_size / 2){
-            _LUT[i]=Amp()+Offset();
-        }else{
-            _LUT[i]=Amp()*-1+Offset();
-        }
-    }
-}
+        case Waveform::Triangle:
+            LUTfiller->FillTriangle(pLUT);
+            break;
 
-Triangle::Triangle(){
-    LookUpTable();
-}
+        case Waveform::Saw:
+            LUTfiller->FillSaw(pLUT);
+            break;
 
-void Triangle::LookUpTable(){
-    for(int i = 0; i < LUT_size; i++){
-        if(i < LUT_size / 2){
-            _LUT[i] = -Amp() + (4.0*Amp()*i/LUT_size);
-        }else{
-            _LUT[i] = Amp() - (4.0*Amp()*(i - LUT_size / 2)/LUT_size);
-        }
-        _LUT[i] += Offset();
-    }
-}
+        case Waveform::ISaw:
+            LUTfiller->FillISaw(pLUT);
+            break;
 
-Saw::Saw(){
-    LookUpTable();
-}
-
-void Saw::LookUpTable(){
-    for(int i = 0; i < LUT_size; i++){
-        _LUT[i]=Amp()*(2.0*i/LUT_size-1.0)+Offset();
+        case Waveform::DC:
+            LUTfiller->FillDC(pLUT);
+            break;
     }
 }

@@ -1,7 +1,7 @@
 #include "PISO.h"
 #include <stdint.h>
 
-using namespace SR_KEYPAD;
+using namespace SR_Keypad;
 
 PISO::PISO(){
     _DataController = nullptr;

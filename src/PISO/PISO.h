@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-namespace SR_KEYPAD{
+namespace SR_Keypad{
         
     class PISO{
     private:

@@ -3,9 +3,11 @@
 
 #include <stdint.h>
 #include <cmath>
+#include "../DAC/DAC.h"
+#include "../LUT/LUT.h"
 
-namespace FUNCTION_GENERATOR{
-        
+namespace Function_Gen{
+    
     class FunctionGenerator{
     private:
         float _TFreq;
@@ -14,15 +16,25 @@ namespace FUNCTION_GENERATOR{
         float _SFreq;
         float _Oversampling;
 
-    protected:
-        static constexpr uint16_t LUT_size = 128;
-
+        DAC* OutputDAC;
         float _Acc;
-        float _LUT[LUT_size];      
+
+        float* pLUT;
+        LUT* LUTfiller;
+
+        enum class Waveform {
+            Sine,
+            Square,
+            Triangle,
+            Saw,
+            ISaw,
+            DC
+        };
 
     public:
         FunctionGenerator();
         FunctionGenerator(float tf, float amp, float offset, float os=4.0);
+
         void SetTFreq(float tf);        //Target frequency
         float TFreq() const;
         void SetAmp(float amp);         //Amplitude
@@ -31,35 +43,14 @@ namespace FUNCTION_GENERATOR{
         float Offset() const;
         void SetSFreq(float os);        //Oversampling for Sample frequency
         float SFreq() const;
+
+        void AttachDAC(DAC* DACx);
         float Refresh();
-        virtual void LookUpTable() = 0;
+
+        void AttachLUT(LUT* mainLUT);
+        void SetWaveform(Waveform W);
 
     };
-
-    class Sine: public FunctionGenerator{
-    public:
-        Sine();
-        void LookUpTable() override;
-    };
-
-    class Square: public FunctionGenerator{
-    public:
-        Square();
-        void LookUpTable() override;
-    };
-
-    class Triangle: public FunctionGenerator{
-    public:
-        Triangle();
-        void LookUpTable() override;
-    };
-
-    class Saw: public FunctionGenerator{
-    public:
-        Saw();
-        void LookUpTable() override;
-    };
-
 };
 
 #endif

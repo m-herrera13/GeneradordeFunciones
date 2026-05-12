@@ -5,11 +5,11 @@
 #include "../SIPO/SIPO.h"
 #include "../PISO/PISO.h"
 
-namespace SR_KEYPAD{
+namespace SR_Keypad{
     
     class Controller{
     public:
-        enum StstusKeys : uint8_t{
+        enum StatusKeys : uint8_t{
             Raising = 0b00,
             Falling = 0b01,
             IdleHigh = 0b10,

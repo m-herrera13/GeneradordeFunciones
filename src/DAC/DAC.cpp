@@ -1,39 +1,24 @@
 #include "DAC.h"
-#include <Arduino.h>
+#include <Wire.h>
 
-using namespace DAC;
+using namespace Function_Gen;
 
-void i2c_CTRL::begin(){
-    SDA_PORT |= (1 << SDA_PIN);
-    SCL_PORT |= (1 << SCL_PIN);
-
-    SDA_HIGH();
-    SCL_HIGH();
+void DAC::SetAddress(uint8_t Address){
+    Addr=(Address & 0b01111111);
 }
 
-void i2c_CTRL::endTransmission(){
-    Stop();
+void DAC::SetAddress(bool A2, bool A1, bool A0){
+    Addr = (0b01100000) | A2 << 2 | A1 << 1 | A0;
 }
 
-MCP4725::MCP4725(i2c_CTRL* controller, uint8_t address){
-    i2c = controller;
-    Addr = address;
-}
+void DAC::Write(uint16_t x, DAC::Commands CM, DAC::Modes MD){
+    uint16_t Data = (x & 0xFFF) | static_cast<uint16_t>(MD) << 12 | static_cast<uint16_t>(CM) << 14;
 
-void MCP4725::setV(uint16_t x) {
-    if(x > 4095) x = 4095;
-    
-    if(!i2c->beginTransmission(Addr)) return;
+    uint8_t DataA = (Data >> 8) & 0xFF;
+    uint8_t DataB = Data & 0xFF;
 
-    if(!i2c->write(Msg1 | ((x>>8)&0xF))){
-        i2c->endTransmission();
-        return;
-    }
-
-    if(!i2c->write(x & 0xFF)){
-        i2c->endTransmission();
-        return;
-    }
-
-    i2c->endTransmission();
+    Wire.beginTransmission(Addr);
+    Wire.write(DataA);
+    Wire.write(DataB);
+    Wire.endTransmission();
 }

@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-namespace SR_KEYPAD{
+namespace SR_Keypad{
         
     class SIPO{
     private:
@@ -25,6 +25,6 @@ namespace SR_KEYPAD{
         void Clock();
         void Latch();
     };
-};
+}
 
-#endif
+#endif //SR_KEYPAD_SIPO_H
