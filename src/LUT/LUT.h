@@ -2,7 +2,7 @@
 #define LUT_H
 
 #include <stdint.h>
-#include <cmath>
+#include <math.h>
 
 namespace Function_Gen{
 
@@ -32,6 +32,10 @@ namespace Function_Gen{
         void FillTriangle(float* pLUT);
         void FillDC(float* pLUT);
         void FillISaw(float* pLUT);
+    };
+
+    class SineLUT : public LUT{
+
     };
 };
 

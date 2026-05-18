@@ -2,7 +2,7 @@
 #define FUNCTION_GENERATOR_H
 
 #include <stdint.h>
-#include <cmath>
+#include <math.h>
 #include "../DAC/DAC.h"
 #include "../LUT/LUT.h"
 

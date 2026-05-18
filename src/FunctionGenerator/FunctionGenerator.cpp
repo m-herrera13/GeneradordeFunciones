@@ -54,7 +54,7 @@ float FunctionGenerator::SFreq() const{
     return _SFreq;
 }
 
-void AttachDAC(DAC* DACx){ OutputDAC = DACx; }
+void FunctionGenerator::AttachDAC(DAC* DACx){ OutputDAC = DACx; }
 
 float Function_Gen::FunctionGenerator::Refresh(){
     _Acc += (_TFreq * LUT_size) / _SFreq;

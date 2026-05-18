@@ -1,6 +1,12 @@
 #include "SIPO.h"
 #include <Arduino.h>
 
+void initSIPO(){
+  pinMode(SIPO_DATA_PIN, OUTPUT);
+  pinMode(SIPO_CLOCK_PIN, OUTPUT);
+  pinMode(SIPO_LATCH_PIN, OUTPUT);
+}
+
 void SIPO_DataController(bool value){
   digitalWrite(SIPO_DATA_PIN, value);
 }

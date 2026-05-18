@@ -1,6 +1,12 @@
 #include "PISO.h"
 #include <Arduino.h>
 
+void initPISO(){
+  pinMode(PISO_DATA_PIN, INPUT);
+  pinMode(PISO_CLOCK_PIN, OUTPUT);
+  pinMode(PISO_SL_PIN, OUTPUT);
+}
+
 bool PISO_DataController(){
   return digitalRead(PISO_DATA_PIN);
 }
